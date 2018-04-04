@@ -83,9 +83,9 @@ void mapPhase (int* line, int* emit)
     
 
     if(matrix == 'A')
-        emit(i, {j, value, 'A'})
+        emit[i, {j, value,]
     else
-        emit(j, {i, value, 'B'})
+        emit[j, {i, value, 'B'}]
 
 
 }
