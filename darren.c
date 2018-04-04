@@ -30,72 +30,83 @@ void printArray(int A[3][3], int dimension)
 	}
 }
 
-int main()
+void write(int i, int j, float num)
 {
-	int row = 3;
-	int col = 3;
-	int A[row][col];
-	int B[row][col];
-	int C[row][col];
-	int D[row][col];
-	A[0][0] = 0;
-	A[0][1] = -1;
-	A[0][2] = -1;
-	A[1][0] = 1;
-	A[1][1] = 0;
-	A[1][2] = 1;
-	A[2][0] = 1;
-	A[2][1] = -1;
-	A[2][2] = 0;
-	B[0][0] = 0;
-	B[0][1] = 1;
-	B[0][2] = 1;
-	B[1][0] = -1;
-	B[1][1] = 0;
-	B[1][2] = -1;
-	B[2][0] = -1;
-	B[2][1] = 1;
-	B[2][2] = 0;
+	
 
-	populateArray(C,row);
-	populateArray(D,row);
-
-	for (int i = 0 ; i < row; i++)
+	FILE *writeFile = fopen("File3ForLab3.txt", "w");
+	if (writeFile == NULL)
 	{
-  		for (int j = 0 ; j < col; j++)
-		{
-     			C[i][j]=0.0;
-			
-     			for (int k = 0 ; k < col; k++)
-			{
-        			C[i][j] = C[i][j]+A[i][k]*A[k][j];
-				
-			}
-    			 
-   		} 
+	    printf("Can't open File\n");
+	    exit(1);
 	}
 
+	fseek(writeFile, 0, SEEK_END); // goto end of file
+	if (ftell(writeFile) == 0)
+ 	{
+      		fprintf(writeFile, "%d %d %f",i,j);
+ 	}
+	fseek(writeFile, 0, SEEK_SET);
+	
+	fprintf(writeFile, "%d %d %f",i,j, num);
 
-	for (int i = 0 ; i < row; i++)
-	{
-  		for (int j = 0 ; j < col; j++)
-		{
-     			D[i][j]=0.0;
-			
-     			for (int k = 0 ; k < col; k++)
-			{
-        			D[i][j] = D[i][j]+C[i][k]*C[k][j];
-				
-			}
-    			 
-   		} 
-	}
-
-		
-	printArray(C,row);
-
-	printf("\n");
-
-	printArray(D,row);
 
 }
+
+
+int** read (const char* filename)
+{
+ 	FILE* readFile = fopen(filename, "r");
+	int i = 0;
+    	int lines[6][3];
+	while (!feof(readFile))
+	{  
+				
+		fscanf(readFile, "%d", &lines[i][0]); 
+		fscanf(readFile, "%d", &lines[i][1]); 
+		fscanf(readFile, "%d", &lines[i][2]);  		
+		//printf("%d %d %d \n", lines[i][0],lines[i][1],lines[i][2]);
+		   
+		i++;
+	}
+	fclose(readFile); 
+	return lines;       
+}
+
+
+void mapPhase (int* line, int* emit)
+{
+
+    i = line[0];
+    j = line[1];
+    value  = line[2];
+    
+
+    if(matrix == 'A')
+        emit(i, {j, value, 'A'})
+    else
+        emit(j, {i, value, 'B'})
+
+
+}
+
+
+int main()
+{
+	int rows = 2;
+	int columns=3;
+	float* line = malloc(3*sizeof(float));
+	line[0] = 0;
+	line[1] = 0;
+	line[2] = 2;
+
+	
+	
+
+}
+
+
+
+
+
+
