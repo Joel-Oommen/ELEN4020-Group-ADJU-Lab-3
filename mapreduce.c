@@ -87,8 +87,8 @@ int main()
 		printf("%d %d %d \n", lines2[j][0],lines2[j][1],lines2[j][2]); 
 	}*/
 	
-	int keyValuePairs[6][4];
-	int keyValuePairs2[6][4];
+	int keyValuePairs[12][4];
+	int keyValuePairs2[12][4];
 	int count=0;
 
 
@@ -104,12 +104,14 @@ int main()
 			keyValuePairs[count][2] = lines[p][1];
 			keyValuePairs[count][3] = lines[p][2];
 			
-			//printf("k= %d, p= %d ,count= %d\n",k,p,count);	
+			//printf("i= %d, k= %d ,j= %d, njk= %d\n",lines[p][0],k,lines[p][1],lines[p][2]);		
 					
 			count++;
 		}
 
 	}
+
+	//int[12][4]
 	/*
 	printf("after thing \n");
 	for (int j = 0 ; j< 12;j++)
@@ -143,22 +145,22 @@ int main()
 	}
 	
 
-	/*
-	printf("after N \n");
+	
+	printf("From M: \n");
 	for (int j = 0 ; j< 12;j++)
 	{
 		printf("%d,%d  %d,%d \n",keyValuePairs[j][0],keyValuePairs[j][1],keyValuePairs[j][2],
 			keyValuePairs[j][3]);
 	}
-	printf("heeeeeey \n");
-	printf("after thing \n");
+	
+	printf("From N \n");
 	for (int j = 0 ; j< 12;j++)
 	{
 		printf("%d,%d  %d,%d \n",keyValuePairs2[j][0],keyValuePairs2[j][1],keyValuePairs2[j][2],
 			keyValuePairs2[j][3]);
 	}
  
-	*/
+	
 
 	 
 
