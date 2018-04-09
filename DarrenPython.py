@@ -62,7 +62,7 @@ class matrixMultiply(MRJob):
 				f+=keystr[0][i]
 			for i in range(0,len(keystr[1])-1):
 				g+=keystr[1][i]
-			stringOut = f+' '+g+' '+str(sumofP)+"\n"
+			stringOut = f+g+' '+str(sumofP)+"\n"
 			outputFile.write(stringOut)
 		
 
