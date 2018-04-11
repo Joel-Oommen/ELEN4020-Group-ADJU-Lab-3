@@ -12,7 +12,7 @@ class matrixMultiply(MRJob):
 		#info2 = matrixN.readline()
 		if len(line.split()) == 3: 
 			nameFile = os.environ['map_input_file']
-			if nameFile == "outA1.list":			
+			if nameFile == "testNetwork.txt":			
 				iM,jM,valueM =  line.split()
 				#print '---',iM,jM,valueM,jN,kN,valueN,'---'
 				for k in range(0,int(columnsN)):
@@ -71,9 +71,9 @@ class matrixMultiply(MRJob):
 
 
 if __name__ == '__main__':
-	matrixM = open("outA1.list","r")
+	matrixM = open("testNetwork.txt","r")
 	rowsM,columnsM = matrixM.readline().split()
-	matrixN = open("outB1.list","r")
+	matrixN = open("testNetwork2.txt","r")
 	rowsN,columnsN = matrixN.readline().split()
 	print rowsN," ", columnsN
 	if int(columnsN) == 1:
@@ -90,7 +90,7 @@ if __name__ == '__main__':
 			line = matrixN.readline()
 			#print "readline i= ", line + "\n"
 		tempFile.close()
-		reWrite = open('outB1.list','w')
+		reWrite = open('testNetwork2.txt','w')
 		reWrite.truncate(0)
 		tempFile = open('Temp.txt','r')
 		for iterator in range (0,int(rowsN)+1):
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 		reWrite.close()
 	
 	#print "columnsN=", columnsN
-	outputFile = open('Output.txt','w')
+	outputFile = open('OutputNetwork.txt','w')
 	outputFile.write(str(rowsM)+' '+str(columnsN)+"\n")	
 	starttime = time.time()  
 	matrixMultiply.run()
