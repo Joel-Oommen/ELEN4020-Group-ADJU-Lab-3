@@ -55,22 +55,24 @@ Ashraf Omar - 710435 | Amprayil Joel Oommen - 843463}
 \section{Introduction}
 The purpose of this lab is to expose the students to the programming model of MapReduce. MapReduce makes use of underlying principles of parallelization, allowing for large datasets to be processed in a scalable and fault-tolerant way.\\
 
-MapReduce is comprised of two key functions, namely a mapping function and reducing function. The map function operates on every member of an input list, returning as output two linked-pieces of data - a key and a value. These key-value pairs are then grouped according to the keys generated.\\
+MapReduce is ordinarily comprised of two types of functions, namely mapping functions and reducing functions (sometimes there are combine functions). The map function operates on every member of an input list, returning as output two linked-pieces of data - a key and a value. These key-value pairs are then grouped according to the keys generated.\\
 
 The output of the map function is then passed on to the reduce function. The reduce function takes in as an argument a key and all values associated with that key, to perform a function set out by the user.\\
 
 For the purposes of this lab, students are required to develop two algorithms which make use of the MapReduce programming model, in order to perform matrix multiplication. Students have opted to make use of Python and the MrJob MapReduce framework, to implement the two algorithms. 
 
-\section{Algorithm A}
+\section{Algorithm A: Naive Matrix Multiplication}
 \subsection{Map Function}
 \noindent
-In order to perform matrix multiplication, the algorithm is required to obtain element data for two matrices (say Matrix A and B) of appropriate size. Hence, when the algorithm is run, two input file names are supplied as arguments. Each input file, states the dimensions of a matrix in its first line. This is followed by every single matrix element's coordinate-position as well as value (where the information of each element is on its own newline).
+In order to perform matrix multiplication, the algorithm is required to obtain element data for two matrices (say Matrix A and B) of appropriate size. Hence, when the algorithm is run in the terminal, two input file names are supplied as arguments. Each input file, states the dimensions of a matrix in its first line. This is followed by every single matrix element's coordinate-position as well as value (where the information of each element is on its own newline). This is known as Matrix Market format and is useful for large sparse matrices as there is no need to store elements with value zero.
 
-The map function is designed to read every line of two inputted files. It first determines which input file it has read data from; this information is necessary, since specific logic is employed (based on the matrix that is being considered) when generating the key-value pairs. For more details about the logic employed, please refer to Figure~\ref{code} In addition, this information is necessary, so that the key-value pairs are associated with their correct matrices by the algorithm (either with Matrix A or Matrix B). The map function is completed, when a key-value pair is generated for each element of the input files. 
+The map function is designed to read every line of two inputted files. It first determines which input file it has read data from; this information is necessary, since specific logic is employed when generating key value pairs that inserts an 'M' or an 'N' to the value of each key value pair depending on whether the text file is the first text file or the second. For more details about the logic employed, please refer to Figure~\ref{code}. The map function is completed, when a key-value pair is generated for each element of the input files. \\
+
+For Matrix M its elements have coordinates $(i,j)$ where $i$ refers to the rows and $j$ refers to the columns. Matrix M's values are given by $m_{ij}$. For Matrix N its elements have coordinates $(j,k)$ where $j$ refers to the rows and $k$ refers to the columns. Matrix M's values are given by $n_{jk}$. The keys are given by $(i,k)$ where for M $i$ is the $i$ coordinate of element $m_{ij}$ being mapped and $k$ is a value that goes from $0$ to the number of columns of the N matrix. For N $i$ is a value that goes from $0$ to the number of rows of the M matrix and k is the $k$ coordinate of element $n_{jk}$ being mapped. The values for the M matrix are generated in this format $('M' , j , m_{ij})$. The values for the N matrix are generated in this format $('N' , j , n_{jk})$.
 
 	\begin{figure}[hbtp!]
 		\centering
-		\includegraphics[scale = 1]{code.png}
+		\includegraphics[scale = 0.78]{code.png}
 		\caption{Excerpt code}
 		\label {code}
 	\end{figure}
@@ -78,9 +80,58 @@ The map function is designed to read every line of two inputted files. It first 
 
 \subsection{Reduce Function}
 \noindent
-Once the map function has generated all the key-value pairs for the two matrices, the reduce function is defined to create an unordered list of all the values for each matrix. These two lists are then sorted according to the key values. 
+Once the map function has generated all the key-value pairs for the two matrices, the reduce function is defined to create two lists (one for each matrix) of all the values for each key. These two lists are then sorted according to their $j$ values.
+ 
+ \begin{figure}[hbtp!]
+		\centering
+		\includegraphics[scale = 0.4]{listM}
+		\caption{List formation}
+		\label {code}
+	\end{figure}
+ 
+ 
+\noindent
+The matrix multiplication is then performed by calculating the sum of the multiplication of all values $m_{ij}$ and $n_{jk}$ in the lists that have the same $j$ value. This is described by the equation below: 
 
-The matrix multiplication is then performed by: 
+\begin{center}
+$P(i,k) =  \sum_{j}^{n}(m_{ij}*n_{jk})$\\
+\end{center}
+
+\noindent
+Where $P(i,k)$ is the element in the resulting matrix with coordinates $(i,k)$.
+The code implementing the multiplication is shown below:
+
+\begin{figure}[hbtp!]
+		\centering
+		\includegraphics[scale = 0.4]{MM}
+		\caption{Matrix Multiplication}
+		\label {code}
+	\end{figure}
+	
+	\section{Comparison}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\centering
+\caption{Table of time comparisons}
+\label{my-label}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multirow{2}{*}{} 
+                   & \multicolumn{3}{l|}{Time taken (s)}                  \\ \hline
+                  & A1*B1         & A2*B2        & A3*B3        \\ \cline{2-4} 
+                 
+Algorithm A       &   24.95679            &              &              \\ \hline
+Algorithm B       &               &              &              \\ \hline
+\end{tabular}
+\end{table}
 
 \section{Directed Graph Problem}
 
@@ -89,34 +140,7 @@ A problem is presented in which an unweighted graph $G=(v,e)$ with $|v|$ nodes a
 
 	%The result of Figure~\ref{code} is then multiplied with the array that
 
-\section{Comparison}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-\begin{table}[H]
-\centering
-\caption{Comparison of Different Methods}
-\label{my-label}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\multicolumn{2}{|l|}{\multirow{2}{*}{}} & \multicolumn{3}{l|}{Array Sizes} \\ \cline{3-5}
-\multicolumn{2}{|l|}{}                  & 128      & 1024      & 8192      \\ \hline
-                     & No. of Threads   & \multicolumn{3}{l|}{Times}       \\ \hline
-%Linear               & 1                &          &           &           \\ \hline
-Algorithm A              & 4                &          &           &           \\ \hline
-\multirow{4}{*}{}    & 8                &          &           &           \\ \cline{2-5}
-                     & 16               &          &           &           \\ \cline{2-5}
-                     & 64               &          &           &           \\ \cline{2-5}
-                     & 128              &          &           &           \\ \hline
-Algorithm B               & 4                &          &           &           \\ \hline
-\multirow{4}{*}{}    & 8                &          &           &           \\ \cline{2-5}
-                     & 16               &          &           &           \\ \cline{2-5}
-                     & 64               &          &           &           \\ \cline{2-5}
-                     & 128              &          &           &           \\ \hline
-\end{tabular}
-\end{table}
 
 \section{Conclusion}
 
