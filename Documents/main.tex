@@ -82,10 +82,10 @@ Once the map function has generated all the key-value pairs for the two matrices
 
 The matrix multiplication is then performed by: 
 
-\section{Pthreads}
+\section{Directed Graph Problem}
 
 \noindent
-
+A problem is presented in which an unweighted graph $G=(v,e)$ with $|v|$ nodes and $|e|$ edges (of length 1) must be represented in some data structure and then the nodes that are connected by paths of length 3 must be calculated. The most straightforward solution would be to represent the graph as a $v\times v$ matrix with $2\times|e|$ non-zero entries. The each row and each column represent a node and each entry determines connections between the two nodes. A one would mean a direct connection between the two nodes and a zero would mean there is either no connection or it is the same node. In order to see the nodes which are connected by length 2, we multiply the matrix by itself and the non-zero entries are connections of length 2 between the nodes. Therefore, the formula for finding connections of length $n$ between nodes in the graph represented by matrix $G$ is $G^n$. Therefore, to find the connections between nodes of length 3, we need to multiply the matrix by itself 3 times.
 
 	%The result of Figure~\ref{code} is then multiplied with the array that
 
