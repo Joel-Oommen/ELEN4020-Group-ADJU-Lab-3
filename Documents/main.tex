@@ -84,7 +84,7 @@ Once the map function has generated all the key-value pairs for the two matrices
  
  \begin{figure}[hbtp!]
 		\centering
-		\includegraphics[scale = 0.4]{listM}
+		\includegraphics[scale = 0.4]{ListM}
 		\caption{List formation}
 		\label {code}
 	\end{figure}
@@ -107,8 +107,25 @@ The code implementing the multiplication is shown below:
 		\caption{Matrix Multiplication}
 		\label {code}
 	\end{figure}
-	
-	\section{Comparison}
+    
+\section{Algorithm B}
+Due to time constraints, the authors were unable to implement a second algorithm of using MapReduce to perform matrix multiplication. Nonetheless, a second method of performing the matrix multiplication was discovered and its logic shall be presented now. This algorithm, unlike Algorithm A, makes use of two cycles of mapping and reduction, in order to perform matrix multiplication using matrix M with elements $m_{ij}$  and matrix N with elements $n_{ij}$ - i.e. a cycle performing $map$ and $reduce$, followed by a second cycle of $map\_final$ and $reduce\_final$.
+
+\subsection{First MapReduce Cycle}
+\noindent
+In the first mapping cycle, each matrix element $m_{ij}$ is mapped to its key-value pair of $(j, (M, i, m_{ij}))$ and each matrix element $n_{jk}$ is mapped to its key-value pair of $(j, (N, k, m_{jk}))$. \\
+
+This is followed by a reduction cycle, where for each key $j$, the list of its associated values are considered. For each value of M and N that appears in the key (i.e. $(j, (M, i, m_{ij}))$ and $(j, (M, i, m_{ij}))$), a tuple is created by multiplying the two values, such that $(i, k, v = m_{ij}n_{jk})$.\\
+
+The final output of the reduce function is another set of key-value pairs, in the form of $(j, [ (i_1,k_1,v_1), (i_2,k_2, v_2), ..., (i_p,k_p, v_p) ])$. Thus, these key-value pairs represent all the multiplied pairs that are generated during the matrix multiplication process. The following MapReduce Cycle, is responsible for adding up all the appropriate multiplied pairs.
+
+\subsection{Second MapReduce Cycle}
+\noindent
+In the second mapping function (i.e. $map\_final$), each of the pairs of the previous reduce function, are mapped to form $p$ key-values (i.e.$((i_1,k_1),v_1), ((i_2,k_2), v_2), ..., ((i_p,k_p), v_p)$ ).
+
+These key-values are inputted into $reduce\_final$, where each $(i,k)$ key is summed, to form the final key-value: $((i,k), v)$. These final key-values, represent the matrix elements of the final multiplied matrix P (where $P=M\times N$).\\
+
+\section{Comparison}
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
