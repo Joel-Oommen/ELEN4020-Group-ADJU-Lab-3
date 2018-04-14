@@ -15,6 +15,30 @@ matrixB = []
 def oneToTwoDimensions(theList, n):
 	return [theList[i:i+n] for i in range(0, len(theList), n)]
 
+def addMatrices(X, Y):
+	ult = X
+	for i in range(len(X)):
+		for j in range(len(X[0])):
+			ult[i][j] = X[i][j] + Y[i][j]
+	return ult
+
+def subtractMatrices(X, Y):
+	ult = X
+	for i in range(len(X)):
+		for j in range(len(X[0])):
+			ult[i][j] = X[i][j] - Y[i][j]
+	return ult
+	
+def multiplyMatrices(v, G):	
+	result = []
+	total = 0
+	for i in range(len(G)):
+		r = G[i]
+		for j in range(len(v)):
+		    total += r[j] * v[j]
+		result.append(total)
+	return result 
+	
 class MRWordFrequencyCount(MRJob):
 
     def mapper(self, _, line):
@@ -39,8 +63,10 @@ class MRWordFrequencyCount(MRJob):
     	matrixB = oneToTwoDimensions(listB, int(math.sqrt(len(listB))))
     	
     	
+    	nDimension = int(len(matrixA))
     	
-    		
+    	
+    	
         yield 1, 1
 
 
